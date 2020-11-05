@@ -9,7 +9,7 @@ const MONGODB_URL = process.env.MONGODB_URL || "mongodb+srv://samhay:artport341@
 const app = express();
 
 const corsOptions = {
-    origin: "https://guarded-falls-94352.herokuapp.com/",
+    origin: "https://cs-431-team-project.herokuapp.com/",
     optionSuccessStatus: 200
 };
 app.use(cors(corsOptions));
