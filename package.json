@@ -1,0 +1,26 @@
+{
+  "name": "cs-341-team-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.10.12"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sebastiansteve/CS-341-team-project.git"
+  },
+  "author": "Rachel Bowery",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sebastiansteve/CS-341-team-project/issues"
+  },
+  "homepage": "https://github.com/sebastiansteve/CS-341-team-project#readme"
+}
