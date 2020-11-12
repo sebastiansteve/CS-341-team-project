@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery</title>
+</head>
+<body>
+    <% if(itemList.length){ %>
+        <div class="gallery">
+            <ul>
+                <% for(i = 0; i < itemList.length; i++){ %>
+                <li class="galleryItem">
+                    <img class="thumbnail" src= <%= itemList[i].imageFile %>>
+                    <h2><%= itemList[i].name %> </h2>
+                    <p class="itemUser"><%= itemList[i].userId %> </p>
+                    <p class="itemTags">Tags: 
+                    <% for(j = 0; j < itemList[i].tags.length; j++) { %> 
+                    <%=itemList[i].tags[j]%>
+                    <% if((j + 1) != itemList[i].tags.length) { %>,
+                    <% }} %> 
+                    </p>
+                </li> 
+                <% } %> 
+            </ul>
+        </div>
+    <% } else { %>
+        <h1>No art found!</h1>
+    <% } %>
+</body>
+</html>
