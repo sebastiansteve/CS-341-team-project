@@ -31,7 +31,10 @@ app.use(express.static(path.join(__dirname, 'public')))
     .set('views', path.join(__dirname, 'views'))
     .set('view engine', 'ejs')
     .use(bodyParser({ extended: false }))
-    .use('/', routes);
+    .use('/', routes)
+    .use((req, res, next) => {
+        res.render('pages/404', { title: '404 - Page Not Found', path: req.url })
+    });
 
 mongoose
     .connect(
