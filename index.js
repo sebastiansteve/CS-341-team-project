@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const path = require('path');
 
 const PORT = process.env.PORT || 5000
 
@@ -23,6 +25,16 @@ const options = {
 }
 
 //connect to routes
+const routes = require('./routes/routes');
+
+app.use(express.static(path.join(__dirname, 'public')))
+    .set('views', path.join(__dirname, 'views'))
+    .set('view engine', 'ejs')
+    .use(bodyParser({ extended: false }))
+    .use('/', routes)
+    .use((req, res, next) => {
+        res.render('pages/404', { title: '404 - Page Not Found', path: req.url })
+    });
 
 mongoose
     .connect(
