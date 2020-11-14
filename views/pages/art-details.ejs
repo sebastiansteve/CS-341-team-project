@@ -6,7 +6,9 @@
     <title>Art Details</title>
 </head>
 <body>
+    <!-- include ../includes/navBar.ejs -->
     <div class="container">
+        <% if (art !== null) { %>
         <article>
             <header>
                 <h1><%= art.name %></h1>
@@ -18,6 +20,9 @@
                 <p><%= art.description %></p>
             </div>
         </article>
+        <% } else { %>
+        <h1>No artwork found!</h1>
+        <% } %>
     </div>
 </body>
 </html>

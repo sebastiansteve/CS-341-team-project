@@ -12,6 +12,6 @@ exports.getArtDetails = (req, res, next) => {
     res.render('../views/pages/art-details', {
         title: 'Art Details',
         path: '/art-details', 
-        itemList: null
+        art: null
     });
 };
