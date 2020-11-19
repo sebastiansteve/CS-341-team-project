@@ -14,6 +14,7 @@ const corsOptions = {
     origin: "https://cs-431-team-project.herokuapp.com/",
     optionSuccessStatus: 200
 };
+app.use(cors(corsOptions)); 
 
 const options = {
     useUnifiedTopology: true,
