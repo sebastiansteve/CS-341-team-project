@@ -18,7 +18,7 @@ exports.postSignup = (req, res, next) => {
         .findOne({ email: email })
         .then(userDoc => {
             if (userDoc) {
-                // req.flash('error', 'Email already exists.');
+                req.flash('error', 'Email already exists.');
                 return res.redirect('/signup');
             }
             return bcrypt
@@ -52,7 +52,8 @@ exports.postSignup = (req, res, next) => {
 exports.getLogin = (req, res, next) => {
     res.render('pages/login', {
         title: 'Login', 
-        path: '/login'
+        path: '/login',
+        errorMessage: req.flash('error')
     });
 };
 
@@ -62,7 +63,7 @@ exports.postLogin = (req, res, next) => {
     User.findOne({ email: email })
         .then(user => {
             if (!user) {
-                // req.flash('error', 'Invalid email or password.');
+                req.flash('error', 'Invalid email or password.');
                 return res.redirect('/login');
             }
             bcrypt
@@ -76,7 +77,7 @@ exports.postLogin = (req, res, next) => {
                             res.redirect('/');
                         });
                     }
-                    // req.flash('error', 'Invalid email or password.');
+                    req.flash('error', 'Invalid email or password.');
                     res.redirect('/login');
                 })
                 .catch(err => {
