@@ -1,7 +1,8 @@
 exports.getSignup = (req, res, next) => {
     res.render('pages/signup', {
         title: 'Signup', 
-        path: '/signup'
+        path: '/signup',
+        errorMessage: req.flash('error')
     });
 };
 

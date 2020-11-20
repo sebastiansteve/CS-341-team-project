@@ -3,6 +3,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const path = require('path');
+const flash = require('connect-flash');
 
 const User = require('./models/user');
 
@@ -38,6 +39,8 @@ const options = {
 //       })
 //       .catch(err => console.log(err));
 //   });
+
+app.use(flash());
 
 //connect to routes
 const routes = require('./routes/routes');
