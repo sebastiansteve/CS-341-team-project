@@ -1,18 +1,32 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const session = require('express-session');
+const MongoDBSite= require('connect-mongodb-session')(session);
 const bodyParser = require('body-parser');
 const path = require('path');
+const csrf = require('csurf');
 const flash = require('connect-flash');
-
 const User = require('./models/user');
 
 const PORT = process.env.PORT || 5000
 
 const MONGODB_URL = process.env.MONGODB_URL || "mongodb+srv://samhay:artport341@art-portfolio.3l0ic.mongodb.net/portfolio?retryWrites=true&w=majority"
 
+const site = new MongoDBSite({
+    uri: MONGODB_URL,
+    collection: 'sessions'
+  });
+  const csrfProtection = csrf();
 const app = express();
-
+app.use(
+    session({
+      secret: 'my secret',
+      resave: false,
+      saveUninitialized: false,
+      site: site
+    })
+  );
 const corsOptions = {
     origin: "https://cs-431-team-project.herokuapp.com/",
     optionSuccessStatus: 200
