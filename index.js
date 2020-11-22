@@ -41,6 +41,10 @@ const options = {
     family: 4
 }
 
+app.use((req, res, next) => {
+    res.locals.isAuthenticated = req.session.isLoggedIn;
+    next();
+  });
 // Looking to see if there is a user logged in
 // app.use((req, res, next) => {
 //     if (!req.session.user) {
