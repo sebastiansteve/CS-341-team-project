@@ -3,10 +3,16 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 
 exports.getSignup = (req, res, next) => {
+    let message = req.flash('error');
+    if (message.length > 0) {
+        message = message[0];
+    } else {
+        message = null;
+    }
     res.render('pages/signup', {
         title: 'Signup', 
         path: '/signup',
-        errorMessage: req.flash('error')
+        errorMessage: message
     });
 };
 
@@ -50,10 +56,16 @@ exports.postSignup = (req, res, next) => {
 };
 
 exports.getLogin = (req, res, next) => {
+    let message = req.flash('error');
+    if (message.length > 0) {
+        message = message[0];
+    } else {
+        message = null;
+    }
     res.render('pages/login', {
         title: 'Login', 
         path: '/login',
-        errorMessage: req.flash('error')
+        errorMessage: message
     });
 };
 
