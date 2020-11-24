@@ -8,6 +8,24 @@ const path = require('path');
 const csrf = require('csurf');
 const flash = require('connect-flash');
 const User = require('./models/user');
+const multer = require('multer');
+
+const fileStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'images');
+    },
+    filename: (req, file, cb) => {
+        cb(null, new Date().toISOString() + '_' + file.originalname);
+    }
+})
+
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg'){
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+};
 
 const PORT = process.env.PORT || 5000
 
@@ -22,7 +40,7 @@ const app = express();
 app.use(
     session({
       secret: 'my secret',
-      resave: false,
+      resave: false, 
       saveUninitialized: false,
       site: site
     })
@@ -68,6 +86,7 @@ app.use(express.static(path.join(__dirname, 'public')))
     .set('views', path.join(__dirname, 'views'))
     .set('view engine', 'ejs')
     .use(bodyParser({ extended: false }))
+    .use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image'))
     .use('/', routes)
     .use((req, res, next) => {
         res.render('pages/404', { title: '404 - Page Not Found', path: req.url })

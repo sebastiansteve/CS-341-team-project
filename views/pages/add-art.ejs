@@ -9,11 +9,11 @@
     <%- include ('../includes/navBar.ejs') %>
     <div class="container">
         <div>
-            <form action="/add-art" method="POST">
-                <label for="newTitle">Title</label><br>
-                <input type="text" name="newTitle" id="newtitle"><br>
-                <label for="newDescription">Description</label><br>
-                <input type="text" name="newDescription" id="newDecription"><br>
+            <form action="/add-art" method="POST" enctype="multipart/form-data">
+                <label for="title">Title</label><br>
+                <input type="text" name="title" id="title"><br>
+                <label for="description">Description</label><br>
+                <input type="text" name="description" id="decription"><br>
                 <label for="image">Image</label><br>
                 <input type="file" name="image" id="image">
                 <button type="submit">Add</button>
