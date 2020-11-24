@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const artSchema = new Schema({
-  name: {
+  title: {
     type: String,
     required: true
   },
@@ -16,10 +16,11 @@ const artSchema = new Schema({
     required: true
   },
   // Change in the future with database
-  imageFile: {
+  image: {
     type: String,
     required: true
-  },
+  }
+  ,
   userId: {
     type: Schema.Types.ObjectId,
     ref: 'User',
