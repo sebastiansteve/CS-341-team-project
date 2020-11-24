@@ -46,17 +46,17 @@ app.use((req, res, next) => {
     next();
   });
 // Looking to see if there is a user logged in
-// app.use((req, res, next) => {
-//     if (!req.session.user) {
-//       return next();
-//     }
-//     User.findById(req.session.user._id)
-//       .then(user => {
-//         req.user = user;
-//         next();
-//       })
-//       .catch(err => console.log(err));
-//   });
+app.use((req, res, next) => {
+    if (!req.session.user) {
+      return next();
+    }
+    User.findById(req.session.user._id)
+      .then(user => {
+        req.user = user;
+        next();
+      })
+      .catch(err => console.log(err));
+  });
 
 app.use(flash());
 
