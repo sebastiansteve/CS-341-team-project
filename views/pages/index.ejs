@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery</title>
+    <link rel="stylesheet" type="text/css" href="/css/main.css" />
+
 </head>
 <body>
     <%- include ('../includes/navBar.ejs') %>
@@ -13,6 +12,41 @@
         </div>
     </div>
 
-    <%- include ('../includes/gallery.ejs') %>
+    <% if(owner === null){owner = false} %>
+
+    <div class="container">
+        <% if(owner){ %>
+          <form action="/add-art" method=get>
+              <button type="submit">Add Art</button>
+           </form>
+        <%}%>
+          <ul class="gallery">
+            <% for(i = 0; i < itemList.length; i++){ %>
+              <li class="galleryItem">
+                      <h2><%= itemList[i].title %> </h2>             
+                      <img src= "/<%= itemList[i].image %>"></img>
+                      <p>Date Uploaded: <%= itemList[i].dateAdded.toDateString() %></p>
+                      <!-- Add username -->
+                      <form action="/view-art" method=get>
+                         <button type="submit">View Details</button>
+                          <input type="hidden" name="artId" value="<%= itemList[i]._id %>">
+                      </form>
+                      <div>
+                        <% if(owner){ %>
+                        <form action="/edit-art" method=get>
+                            <button type="submit">Edit</button>
+                            <input type="hidden" name="artId" value="<%= itemList[i]._id %>">
+                        </form>
+                        <form action="/delete-art" method=get>
+                          <button type="submit">Delete</button>
+                          <input type="hidden" name="artId" value="<%= itemList[i]._id %>">
+                        </form>
+                        <%}%>
+                      </div>
+                  </form>
+              </li> 
+            <% } %>
+          </ul>
+      </div>
 </body>
 </html>

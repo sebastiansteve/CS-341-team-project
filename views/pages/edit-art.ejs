@@ -11,12 +11,12 @@
         <div>
             <form action="/edit-art" method="POST" enctype="multipart/form-data">
                 <label for="title">Title</label><br>
-                <input type="text" name="title" id="title" value="<%= product.title %>"><br>
+                <input type="text" name="title" id="title" value="<%= art.title %>"><br>
                 <label for="description">Description</label><br>
-                <input type="text" name="description" id="decription" value="<%= product.description %>"><br>
+                <input type="text" name="description" id="decription" value="<%= art.description %>"><br>
                 <label for="image">Image</label><br>
-                <input type="file" name="image" id="image" value="">
-                <input type="hidden" name="artId" id="artId" value="<%= product._id %>">
+                <input type="file" name="image" id="image" value="/<%= art.image %>">
+                <input type="hidden" name="artId" id="artId" value="<%= art._id %>">
                 <button type="submit">Save</button>
             </form>
         </div>

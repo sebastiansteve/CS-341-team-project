@@ -5,3 +5,11 @@
 .galleryItem {
     display: inline-grid;
 }
+
+.galleryItem img {
+    width: 200px;
+}
+
+.art-view img {
+    width: 600px;
+}

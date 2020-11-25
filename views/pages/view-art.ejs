@@ -4,18 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Art Details</title>
+    <link rel="stylesheet" type="text/css" href="/css/main.css" />
 </head>
 <body>
     <%- include ('../includes/navBar.ejs') %>
-    <div class="container">
+    <div class="art-view">
         <% if (art !== null) { %>
         <article>
             <header>
-                <h1><%= art.name %></h1>
+                <h1><%= art.title %></h1>
             </header>
             <div>
-                <img src="<%= art.imageFile %>" alt="<%= art.name %>" style="width:500px;">
-            </div><br>
+                <img src="<%= art.image %>" alt="<%= art.title %>">
+            </div><br> 
             <div>
                 <p><%= art.description %></p>
             </div>

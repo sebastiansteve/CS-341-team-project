@@ -15,16 +15,23 @@ const artSchema = new Schema({
     type: String,
     required: true
   },
-  // Change in the future with database
+  // Change in the future with database  
   image: {
     type: String,
-    required: true
-  }
-  ,
+    required: true 
+  },
   userId: {
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true
+  },
+  dateAdded: {
+    type: Date,
+    required: true
+  },
+  lastEdited: {
+    type: Date,
+    required: false
   }
 });
 

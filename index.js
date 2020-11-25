@@ -87,6 +87,7 @@ app.use(express.static(path.join(__dirname, 'public')))
     .set('view engine', 'ejs')
     .use(bodyParser({ extended: false }))
     .use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image'))
+    .use('/images', express.static(path.join(__dirname, 'images')))
     .use('/', routes)
     .use((req, res, next) => {
         res.render('pages/404', { title: '404 - Page Not Found', path: req.url })
