@@ -13,3 +13,8 @@
 .art-view img {
     width: 600px;
 }
+
+.add-edit img {
+    width: 200px;
+    opacity: 0.5;
+}

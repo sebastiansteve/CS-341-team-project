@@ -22,11 +22,20 @@
         <%}%>
           <ul class="gallery">
             <% for(i = 0; i < itemList.length; i++){ %>
+
+                <% const tagArray = itemList[i].tags; %>
+                <% let tagString = ""; %>
+                <% for(j = 0; j < tagArray.length; j++){ %>
+                    <% if(j){ %>
+                        <% tagString += ", "; %>
+                    <% } tagString += tagArray[j];} %>
+
               <li class="galleryItem">
                       <h2><%= itemList[i].title %> </h2>             
                       <img src= "/<%= itemList[i].image %>"></img>
                       <p>Date Uploaded: <%= itemList[i].dateAdded.toDateString() %></p>
                       <!-- Add username -->
+                      <p>Tags: <%= tagString %></p>
                       <form action="/view-art" method=get>
                          <button type="submit">View Details</button>
                           <input type="hidden" name="artId" value="<%= itemList[i]._id %>">
@@ -48,5 +57,22 @@
             <% } %>
           </ul>
       </div>
+
+      <section class="pagination">
+        <% if (currentPage != 1) { %>
+            <a href="/pr08/?page=1">1</a>
+        <% } %>
+        <% if (hasPreviousPage && (previousPage != 1)) { %>
+            <a href="/pr08/?page=<%= previousPage %>"><%= previousPage %></a>
+        <% } %>
+          <a href="/pr08/?page=<%= currentPage %>" class="active"><%= currentPage %></a>
+        <% if (hasNextPage && ((currentPage + 1 != lastPage))) { %>
+           <a href="/pr08/?page=<%= nextPage %>"><%= nextPage %></a>
+        <% } %>
+        <% if (lastPage != currentPage) { %>
+            <a href="/pr08/?page=<%= lastPage %>"><%= lastPage %></a>
+        <% } %>
+    </section>
+
 </body>
 </html>

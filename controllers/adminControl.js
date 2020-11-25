@@ -2,18 +2,35 @@ const art = require('../models/art.js');
 const Art = require('../models/art.js');
 const fileHelper = require('../util/fileManager');
 
+const ITEMS_PER_PAGE = 10;
+
 exports.getArt = (req, res, next) => {
     const user = req.user;
+    const page = +req.query.page || 1; 
+    let totalArt;
 
     Art.find()
-    .sort({dateAdded: -1})
+    .countDocuments()
+    .then(artNum => {
+        totalArt = artNum;
+        return Art.find()
+        .skip((page - 1) * ITEMS_PER_PAGE)
+        .limit(ITEMS_PER_PAGE)
+        .sort({dateAdded: -1});
+    })
     .then(art => {
-        res.render('../views/pages/index.ejs',{
+        res.render('../views/pages/index.ejs',{ 
         title: 'My Art',
         path: '/my-art',
         user: user,
-        itemList: art,
-        owner: true
+        itemList: art, 
+        owner: true,
+        currentPage: page,
+        hasNextPage: ITEMS_PER_PAGE * page < totalArt,
+        hasPreviousPage: page > 1,
+        nextPage: page + 1,
+        previousPage: page - 1,
+        lastPage: Math.ceil(totalArt / ITEMS_PER_PAGE)
         });
     })
     .catch(err => console.log(err));
@@ -26,11 +43,22 @@ exports.getViewArt = (req, res, next) => {
     .then(art => {
         let isOwner = (req.user === art.userId);
 
+        const tagArray = art.tags;
+        let tagString = "";
+
+        for(i = 0; i < tagArray.length; i++){ 
+            if(i){
+                tagString += ", ";
+            }
+            tagString += tagArray[i];
+        }
+ 
         res.render('../views/pages/view-art.ejs',{
         title: art.title,
         path: '/view-art',
         art: art,
-        owner: isOwner
+        owner: isOwner,
+        tags: tagString
         });
     })
     .catch(err => console.log(err));
@@ -48,16 +76,18 @@ exports.postAddArt = (req, res, next) => {
     const description = req.body.description;
     const image = req.file;
     const userId = req.user;
+    const tagString = req.body.tags;
+
+    const tags = tagString.split(", ");
 
     if(!image){
         res.redirect('/add-art');
     }
-
-    const imageUrl = image.path;
+    const imageUrl = image.path; 
 
     const art = new Art({
         title: title, 
-        tags: [], 
+        tags: tags, 
         image: imageUrl,
         description: description,
         userId: userId,
@@ -74,11 +104,23 @@ exports.postAddArt = (req, res, next) => {
 
 exports.getEditArt = (req, res, next) => {
     const artId = req.query.artId;
+
     Art.findById(artId).then(art => {
+        const tagArray = art.tags;
+        let tagString = "";
+
+        for(i = 0; i < tagArray.length; i++){ 
+            if(i){
+                tagString += ", ";
+            }
+            tagString += tagArray[i];
+        }
+ 
         res.render('../views/pages/edit-art', {
         title: 'Edit Art',
         path: '/edit-art',
-        art: art
+        art: art,
+        tags: tagString
         }) 
     })
 };
@@ -87,6 +129,7 @@ exports.postEditArt = (req, res, next) => {
     const artId = req.body.artId;
     const newTitle = req.body.title;
     const newDescription = req.body.description;
+    const tagString = req.body.tags;
     const newImage = req.file;
 
     Art.findById(artId)
@@ -94,6 +137,7 @@ exports.postEditArt = (req, res, next) => {
         art.title = newTitle;
         art.description = newDescription;
         art.lastEdited = new Date();
+        art.tags = tagString.split(", ");
 
         if(newImage){
             fileHelper.deleteFile(art.image);

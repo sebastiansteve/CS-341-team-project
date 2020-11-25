@@ -14,8 +14,7 @@ const artSchema = new Schema({
   description: {
     type: String,
     required: true
-  },
-  // Change in the future with database  
+  }, 
   image: {
     type: String,
     required: true 
