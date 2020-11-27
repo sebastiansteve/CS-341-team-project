@@ -4,18 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit</title>
+    <link rel="stylesheet" type="text/css" href="/css/main.css" />
 </head>
 <body>
-    <div class="container">
+    <%- include ('../includes/navBar.ejs') %>
+    <div class="add-edit">
         <div>
-            <form action="/edit-art" method="POST">
-                <label for="newTitle">Title</label><br>
-                <input type="text" name="newTitle" id="newtitle"><br>
-                <label for="newDescription">Description</label><br>
-                <input type="text" name="newDescription" id="newDecription">
+            <form action="/edit-art" method="POST" enctype="multipart/form-data">
+                <br><img src= "/<%= art.image %>"></img><br>
+                <label for="title">Title</label><br>
+                <input type="text" name="title" id="title" value="<%= art.title %>"><br>
+                <label for="description">Description</label><br>
+                <input type="text" name="description" id="decription" value="<%= art.description %>"><br>
                 <label for="image">Image</label><br>
-                <input type="file" name="image" id="image">
-                <button type="submit">Add</button>
+                <input type="file" name="image" id="image" value="/<%= art.image %>"><br>
+                <label for="image">Tags: </label>
+                <input type="text" name="tags" id="tags" value="<%= tags %>">
+                <input type="hidden" name="artId" id="artId" value="<%= art._id %>"><br>
+                <button type="submit">Save</button>
             </form>
         </div>
     </div>

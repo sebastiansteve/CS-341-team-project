@@ -8,6 +8,24 @@ const path = require('path');
 const csrf = require('csurf');
 const flash = require('connect-flash');
 const User = require('./models/user');
+const multer = require('multer');
+
+const fileStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'images');
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.filename + '_' + file.originalname);
+    }
+})
+
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg'){
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+};
 
 const PORT = process.env.PORT || 5000
 
@@ -22,7 +40,7 @@ const app = express();
 app.use(
     session({
       secret: 'my secret',
-      resave: false,
+      resave: false, 
       saveUninitialized: false,
       site: site
     })
@@ -47,18 +65,19 @@ app.use((req, res, next) => {
     res.locals.isAuthenticated = req.session.isLoggedIn;
     next();
   });
+  
 // Looking to see if there is a user logged in
-// app.use((req, res, next) => {
-//     if (!req.session.user) {
-//       return next();
-//     }
-//     User.findById(req.session.user._id)
-//       .then(user => {
-//         req.user = user;
-//         next();
-//       })
-//       .catch(err => console.log(err));
-//   });
+app.use((req, res, next) => {
+    if (!req.session.user) {
+        return next();
+    }
+    User.findById(req.session.user._id)
+        .then(user => {
+            req.user = user;
+            next();
+        })
+        .catch(err => console.log(err));
+});
 
 app.use(flash());
 
@@ -69,6 +88,8 @@ app.use(express.static(path.join(__dirname, 'public')))
     .set('views', path.join(__dirname, 'views'))
     .set('view engine', 'ejs')
     .use(bodyParser({ extended: false }))
+    .use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image'))
+    .use('/images', express.static(path.join(__dirname, 'images')))
     .use('/', routes)
     .use((req, res, next) => {
         res.render('pages/404', { title: '404 - Page Not Found', path: req.url })

@@ -6,32 +6,32 @@
             <li class="">
                 <a class="<%= path === '/' ? 'active' : '' %>" href="/">Gallery</a>
             </li>
-            <!---<% if (isAuthenticated) { %>--->
+            <% if (isAuthenticated) { %>
                 <li class="">
                     <a class="<%= path === '/add-art' ? 'active' : '' %>" href="/add-art">Add Art Piece
                     </a>
                 </li>
                 <li class="">
-                    <a class="<%= path === '/myart' ? 'active' : '' %>" href="/myart">My Art
+                    <a class="<%= path === '/my-art' ? 'active' : '' %>" href="/my-art">My Art
                     </a>
                 </li>
-            <!---<% } %>--->
+            <% } %>
         </ul>
         <ul class="">
-            <!---<% if (!isAuthenticated) { %>--->
+            <% if (!isAuthenticated) { %>
                 <li class="">
                     <a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a>
                 </li>
                 <li class="">
                     <a class="<%= path === '/signup' ? 'active' : '' %>" href="/signup">Signup</a>
                 </li>
-            <!---<% } else { %>--->
+            <% } else { %>
                 <li class="">
                     <form action="/logout" method="post">
                         <button type="submit">Logout</button>
                     </form>
                 </li>
-            <!---<% } %>--->
+            <% } %>
         </ul>
     </nav>
 </header>
