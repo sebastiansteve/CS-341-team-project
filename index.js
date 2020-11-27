@@ -17,7 +17,7 @@ const site = new MongoDBSite({
     uri: MONGODB_URL,
     collection: 'sessions'
   });
-  const csrfProtection = csrf();
+const csrfProtection = csrf();
 const app = express();
 app.use(
     session({
@@ -26,7 +26,9 @@ app.use(
       saveUninitialized: false,
       site: site
     })
-  );
+);
+app.use(csrfProtection);
+
 const corsOptions = {
     origin: "https://cs-431-team-project.herokuapp.com/",
     optionSuccessStatus: 200
@@ -70,7 +72,7 @@ app.use(express.static(path.join(__dirname, 'public')))
     .use('/', routes)
     .use((req, res, next) => {
         res.render('pages/404', { title: '404 - Page Not Found', path: req.url })
-    });
+});
 
 mongoose
     .connect(
@@ -81,4 +83,4 @@ mongoose
     })
     .catch(err => {
         console.log(err);
-    });
+});
