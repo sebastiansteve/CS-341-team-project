@@ -11,6 +11,7 @@
     <div class="add-edit">
         <div>
             <form action="/edit-art" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <br><img src= "/<%= art.image %>"></img><br>
                 <label for="title">Title</label><br>
                 <input type="text" name="title" id="title" value="<%= art.title %>"><br>

@@ -17,6 +17,7 @@
     <div class="container">
         <% if(owner){ %>
           <form action="/add-art" method=get>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
               <button type="submit">Add Art</button>
            </form>
         <%}%>
@@ -37,16 +38,19 @@
                       <!-- Add username -->
                       <p>Tags: <%= tagString %></p>
                       <form action="/view-art" method=get>
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                          <button type="submit">View Details</button>
                           <input type="hidden" name="artId" value="<%= itemList[i]._id %>">
                       </form>
                       <div>
                         <% if(owner){ %>
                         <form action="/edit-art" method=get>
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                             <button type="submit">Edit</button>
                             <input type="hidden" name="artId" value="<%= itemList[i]._id %>">
                         </form>
                         <form action="/delete-art" method=get>
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                           <button type="submit">Delete</button>
                           <input type="hidden" name="artId" value="<%= itemList[i]._id %>">
                         </form>
