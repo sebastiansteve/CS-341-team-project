@@ -9,11 +9,11 @@ exports.getArt = (req, res, next) => {
     const page = +req.query.page || 1; 
     let totalArt;
 
-    Art.find()
+    Art.find({ userId: user })
     .countDocuments()
     .then(artNum => {
         totalArt = artNum;
-        return Art.find()
+        return Art.find({ userId: user })
         .skip((page - 1) * ITEMS_PER_PAGE)
         .limit(ITEMS_PER_PAGE)
         .sort({dateAdded: -1});
@@ -41,8 +41,7 @@ exports.getViewArt = (req, res, next) => {
 
     Art.findById(artId)
     .then(art => {
-        let isOwner = (req.user === art.userId);
-
+        const isOwner = (req.user._id.toHexString() == art.userId.toHexString());
         const tagArray = art.tags;
         let tagString = "";
 
