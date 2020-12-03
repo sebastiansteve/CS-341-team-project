@@ -36,22 +36,11 @@ const site = new MongoDBSite({
     collection: 'sessions'
   });
 const csrfProtection = csrf();
-const app = express();
-app.use(
-    session({
-      secret: 'my secret',
-      resave: false, 
-      saveUninitialized: false,
-      site: site
-    })
-);
-app.use(csrfProtection);
 
 const corsOptions = {
     origin: "https://cs-431-team-project.herokuapp.com/",
     optionSuccessStatus: 200
 };
-app.use(cors(corsOptions)); 
 
 const options = {
     useUnifiedTopology: true,
@@ -61,11 +50,28 @@ const options = {
     family: 4
 }
 
-app.use((req, res, next) => {
-    res.locals.isAuthenticated = req.session.isLoggedIn;
-    next();
-  });
+const app = express();
+
+app.use(cors(corsOptions)); 
+
+app.use(
+    session({
+      secret: 'my secret',
+      resave: false, 
+      saveUninitialized: false,
+      site: site
+    })
+);
+
+app.use(express.static(path.join(__dirname, 'public')))
+.set('views', path.join(__dirname, 'views'))
+.set('view engine', 'ejs')
+.use(bodyParser({ extended: false }))
+
+app.use(csrfProtection);
   
+app.use(flash());
+
 // Looking to see if there is a user logged in
 app.use((req, res, next) => {
     if (!req.session.user) {
@@ -80,20 +86,15 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => {
+    res.locals.isAuthenticated = req.session.isLoggedIn;
     res.locals.csrfToken = req.csrfToken();
     next();
 });
 
-app.use(flash());
-
 //connect to routes
 const routes = require('./routes/routes');
 
-app.use(express.static(path.join(__dirname, 'public')))
-    .set('views', path.join(__dirname, 'views'))
-    .set('view engine', 'ejs')
-    .use(bodyParser({ extended: false }))
-    .use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image'))
+app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image'))
     .use('/images', express.static(path.join(__dirname, 'images')))
     .use('/', routes)
     .use((req, res, next) => {
