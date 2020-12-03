@@ -96,17 +96,17 @@ button:hover {
     background: transparent;
     color: white;
     cursor: pointer;
-  }
+}
   
   #side-menu-toggle:focus {
     outline: none;
-  }
+}
   
   #side-menu-toggle:active,
   #side-menu-toggle:hover {
     color: teal;
-  border-color: black;
-  }
+    border-color: black;
+}
 
 .galleryItem img {
     width: 200px;
