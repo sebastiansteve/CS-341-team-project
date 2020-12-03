@@ -27,12 +27,18 @@ exports.getSignup = (req, res, next) => {
 exports.postSignup = (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
+    const username = req.body.username;
     const confirmPassword = req.body.confirmPassword;
+
     User
-        .findOne({ email: email })
+        .findOne({ email: email }) 
         .then(userDoc => {
             if (userDoc) {
                 req.flash('error', 'Email already exists.');
+                return res.redirect('/signup');
+            }
+            if (password != confirmPassword){
+                req.flash('error', 'Password does not match confirmed password');
                 return res.redirect('/signup');
             }
             return bcrypt
@@ -40,6 +46,7 @@ exports.postSignup = (req, res, next) => {
                 .then(hashedPassword => {
                     const user = new User({
                         email: email,
+                        username: username,
                         password: hashedPassword,
                         cart: { items: [] }
                     });

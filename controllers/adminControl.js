@@ -19,11 +19,17 @@ exports.getArt = (req, res, next) => {
         .sort({dateAdded: -1});
     })
     .then(art => {
-        res.render('../views/pages/index.ejs',{ 
+        let usernames = [];
+        for(i = 0; i < art.length; i++){
+            usernames.push(art[i].username);
+        }
+
+        res.render('../views/pages/index.ejs',{
         title: 'My Art',
         path: '/my-art',
         user: user,
         itemList: art, 
+        usernames: usernames,
         owner: true,
         currentPage: page,
         hasNextPage: ITEMS_PER_PAGE * page < totalArt,

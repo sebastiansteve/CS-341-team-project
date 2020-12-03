@@ -17,12 +17,18 @@ exports.getIndex = (req, res, next) => {
         .sort({dateAdded: -1});
     })
     .then(art => {
+        let usernames = [];
+        for(i = 0; i < art.length; i++){
+            usernames.push(art[i].username);
+            console.log(art[i].username);
+        }
 
-        res.render('../views/pages/index.ejs',{
+        res.render('../views/pages/index.ejs',{ 
         title: 'Public Gallery',
         path: '/index',
         user: user,
         itemList: art, 
+        usernames: usernames,
         owner: false,
         currentPage: page,
         hasNextPage: ITEMS_PER_PAGE * page < totalArt,
