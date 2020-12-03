@@ -15,7 +15,7 @@ router.get('/art-details', galleryController.getArtDetails);
 
 //admin
 router.get('/my-art', isAuth, adminController.getArt); 
-router.get('/view-art', isAuth, adminController.getViewArt); 
+router.get('/view-art', adminController.getViewArt); 
 router.get('/add-art', isAuth, adminController.getAddArt); 
 router.post('/add-art', isAuth, adminController.postAddArt);
 router.get('/edit-art', isAuth, adminController.getEditArt);
