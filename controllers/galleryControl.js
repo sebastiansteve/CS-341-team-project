@@ -1,4 +1,5 @@
 const Art = require('../models/art');
+const User = require('../models/user');
 
 const ITEMS_PER_PAGE = 10;
 
@@ -6,6 +7,7 @@ exports.getIndex = (req, res, next) => {
     const user = req.user;
     const page = +req.query.page || 1; 
     let totalArt;
+    let usernames = [];
 
     Art.find()
     .countDocuments()
@@ -14,13 +16,22 @@ exports.getIndex = (req, res, next) => {
         return Art.find()
         .skip((page - 1) * ITEMS_PER_PAGE)
         .limit(ITEMS_PER_PAGE)
-        .sort({dateAdded: -1});
+        .sort({dateAdded: -1})
+        .populate('userId');
     })
     .then(art => {
-        let usernames = [];
         for(i = 0; i < art.length; i++){
-            usernames.push(art[i].username);
-            console.log(art[i].username);
+            if(art[i].userId != null){
+                if(art[i].userId.username){
+                    usernames.push(art[i].userId.username);
+                } 
+                else {
+                    usernames.push("Anonymous");
+                }
+            } 
+            else {
+                usernames.push("Deleted User"); 
+            }
         }
 
         res.render('../views/pages/index.ejs',{ 

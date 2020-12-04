@@ -35,7 +35,9 @@
                       <h2><%= itemList[i].title %> </h2>             
                       <img src= "/<%= itemList[i].image %>"></img>
                       <p><%= itemList[i].dateAdded.toDateString() %></p>
+                      <% if(!owner) { %>
                       <p><%= usernames[i] %></p>
+                      <%}%>
                       <p>Tags: <%= tagString %></p>
                       <form action="/view-art" method=get>
                         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
