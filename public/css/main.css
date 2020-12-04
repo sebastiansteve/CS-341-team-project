@@ -1,17 +1,19 @@
 body {
     background-color: #111111;
     color: #dddddd;
+    font-family: "Helvetica", sans-serif;
 }
 
 button {
     background-color: #dddddd;
     border: none;
     color: black;
-    padding: 15px 32px;
+    padding: 7px 20px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+    font-family: "Helvetica", sans-serif;
 }
 
 button {
@@ -85,7 +87,7 @@ button:hover {
 .main-header__item a.active,
 .main-header__item button:hover,
 .main-header__item button:active {
-  color: #3bb7ff;
+  color: black;
 }
 
 #side-menu-toggle {
