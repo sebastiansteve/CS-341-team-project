@@ -10,8 +10,7 @@
     <%- include ('../includes/navBar.ejs') %>
     <div class="add-edit">
         <div>
-            <form action="/add-art" method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <form action="./add-art?_csrf=<%= csrfToken %>" method="POST" enctype="multipart/form-data">
                 <label for="title">Title</label><br>
                 <input type="text" name="title" id="title"><br>
                 <label for="description">Description</label><br>

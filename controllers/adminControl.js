@@ -42,12 +42,18 @@ exports.getArt = (req, res, next) => {
     .catch(err => console.log(err));
 }; 
 
-exports.getViewArt = (req, res, next) => { 
+exports.getViewArt = (req, res, next) => {  
     const artId = req.query.artId;
 
     Art.findById(artId)
     .then(art => {
-        const isOwner = (req.user._id.toHexString() == art.userId.toHexString());
+        let isOwner;
+        if(req.user){
+            isOwner = (req.user._id.toHexString() == art.userId.toHexString());
+        }
+        else{
+            isOwner = false;
+        }
         const tagArray = art.tags;
         let tagString = "";
 
