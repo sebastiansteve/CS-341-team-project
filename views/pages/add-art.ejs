@@ -11,15 +11,15 @@
     <%- include ('../includes/navBar.ejs') %>
     <div class="add-edit">
         <div>
-            <form action="./add-art?_csrf=<%= csrfToken %>" method="POST" enctype="multipart/form-data">
-                <label for="title">Title</label><br>
-                <input type="text" name="title" id="title"><br>
-                <label for="description">Description</label><br>
-                <input type="text" name="description" id="decription"><br>
-                <label for="image">Image</label><br>
-                <input type="file" name="image" id="image"><br>
-                <label for="image">Tags: </label>
-                <input type="text" name="tags" id="tags"><br>
+            <form action="./add-art?_csrf=<%= csrfToken %>" method="POST" enctype="multipart/form-data" class="login-form">
+                <label for="title" class="label">Title</label><br>
+                <input type="text" name="title" id="title" class="input"><br>
+                <label for="description" class="label">Description</label><br>
+                <input type="text" name="description" id="decription" class="input"><br>
+                <label for="image" class="label">Image</label><br>
+                <input type="file" name="image" id="image" class="input"><br>
+                <label for="image" class="label">Tags: </label>
+                <input type="text" name="tags" id="tags" class="input"><br><br>
                 <button type="submit">Submit</button>
             </form>
         </div>
