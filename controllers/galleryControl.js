@@ -27,7 +27,7 @@ exports.getIndex = (req, res, next) => {
                 } 
                 else {
                     usernames.push("Anonymous");
-                }
+                } 
             } 
             else {
                 usernames.push("Deleted User"); 

@@ -110,8 +110,14 @@ button:hover {
     border-color: black;
 }
 
-.galleryItem img {
-    width: 200px;
+input.submitImage {
+    width: 200px; 
+}
+button.titleLink {
+    background: none;
+    border: none;
+    color: white;
+    font-size: x-large;
 }
 
 .art-view img {
