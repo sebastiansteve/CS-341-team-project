@@ -1,5 +1,6 @@
 <div class="backdrop"></div>
 <header class="main-header">
+    <button id="side-menu-toggle">Menu</button>
     <nav class="main-header__nav">
         <ul class="main-header__item-list">
             <% if (isAuthenticated) { %>
@@ -13,7 +14,7 @@
                 </li>
             <% } %>
         </ul>
-        <ul class="main-header_auth__item-list">
+        <ul class="main-header__item-list">
             <% if (!isAuthenticated) { %>
                 <li class="main-header__item">
                     <a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a>
