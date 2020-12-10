@@ -10,18 +10,18 @@
     <%- include ('../includes/navBar.ejs') %>
     <div class="add-edit">
         <div>
-            <form action="./edit-stuff?_csrf=<%= csrfToken %>" method="POST" enctype="multipstuff/form-data">
+            <form action="./edit-art?_csrf=<%= csrfToken %>" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                <br><img src= "/<%= stuff.image %>"></img><br>
+                <br><img src= "/<%= art.image %>"></img><br>
                 <label for="title">Title</label><br>
-                <input type="text" name="title" id="title" value="<%= stuff.title %>"><br>
+                <input type="text" name="title" id="title" value="<%= art.title %>"><br>
                 <label for="description">Description</label><br>
-                <input type="text" name="description" id="decription" value="<%= stuff.description %>"><br>
+                <input type="text" name="description" id="decription" value="<%= art.description %>"><br>
                 <label for="image">Image</label><br>
-                <input type="file" name="image" id="image" value="/<%= stuff.image %>"><br>
+                <input type="file" name="image" id="image" value="/<%= art.image %>"><br>
                 <label for="image">Tags: </label>
                 <input type="text" name="tags" id="tags" value="<%= tags %>">
-                <input type="hidden" name="stuffId" id="stuffId" value="<%= stuff._id %>"><br>
+                <input type="hidden" name="artId" id="artId" value="<%= art._id %>"><br>
                 <button type="submit">Save</button>
             </form>
         </div>

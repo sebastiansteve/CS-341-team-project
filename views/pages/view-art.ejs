@@ -3,27 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stuff Details</title>
+    <title>Art Details</title>
     <link rel="stylesheet" type="text/css" href="/css/main.css" />
 </head>
 <body>
     <%- include ('../includes/navBar.ejs') %>
-    <div class="stuff-view">
-        <% if (stuff !== null) { %>
-        <stufficle>
+    <div class="art-view">
+        <% if (art !== null) { %>
+        <article>
             <div>
-                <img src="<%= stuff.image %>" alt="<%= stuff.title %>">
+                <img src="<%= art.image %>" alt="<%= art.title %>">
             </div><br> 
             <header>
-                <h1><%= stuff.title %></h1>
+                <h1><%= art.title %></h1>
             </header>
             <div>
-                <p><%= stuff.description %></p>
+                <p><%= art.description %></p>
             </div>
             <p><%= tags %></p>
-        </stufficle>
+        </article>
         <% } else { %>
-        <h1>No items found!</h1>
+        <h1>No artwork found!</h1>
         <% } %>
     </div>
 </body>

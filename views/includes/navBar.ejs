@@ -1,20 +1,22 @@
 <div class="backdrop"></div>
 <header class="main-header">
-    <button id="side-menu-toggle">Menu</button>
     <nav class="main-header__nav">
         <ul class="main-header__item-list">
+            <li class="main-header__item">
+                <a class="<%= path === '/index' ? 'active' : '' %>" href="/">Gallery</a>
+            </li>
             <% if (isAuthenticated) { %>
                 <li class="main-header__item">
-                    <a class="<%= path === '/add-stuff' ? 'active' : '' %>" href="/add-stuff">Add Art Piece
+                    <a class="<%= path === '/add-art' ? 'active' : '' %>" href="/add-art">Add Art Piece
                     </a>
                 </li>
                 <li class="main-header__item">
-                    <a class="<%= path === '/my-stuff' ? 'active' : '' %>" href="/my-stuff">My Art
+                    <a class="<%= path === '/my-art' ? 'active' : '' %>" href="/my-art">My Art
                     </a>
                 </li>
             <% } %>
         </ul>
-        <ul class="main-header__item-list">
+        <ul class="main-header_auth__item-list">
             <% if (!isAuthenticated) { %>
                 <li class="main-header__item">
                     <a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a>

@@ -11,16 +11,16 @@ const authController = require('../controllers/authControl');
 
 //gallery
 router.get('/', galleryController.getIndex);
-router.get('/stuff-details', galleryController.getStuffDetails); 
+router.get('/art-details', galleryController.getArtDetails); 
 
 //admin
-router.get('/my-stuff', isAuth, adminController.getStuff); 
-router.get('/view-stuff', adminController.getViewStuff); 
-router.get('/add-stuff', isAuth, adminController.getAddStuff); 
-router.post('/add-stuff', isAuth, adminController.postAddStuff);
-router.get('/edit-stuff', isAuth, adminController.getEditStuff);
-router.post('/edit-stuff', isAuth, adminController.postEditStuff);
-router.get('/delete-stuff', isAuth, adminController.getDeleteStuff);
+router.get('/my-art', isAuth, adminController.getArt); 
+router.get('/view-art', adminController.getViewArt); 
+router.get('/add-art', isAuth, adminController.getAddArt); 
+router.post('/add-art', isAuth, adminController.postAddArt);
+router.get('/edit-art', isAuth, adminController.getEditArt);
+router.post('/edit-art', isAuth, adminController.postEditArt);
+router.get('/delete-art', isAuth, adminController.getDeleteArt);
 
 //auth
 router.get('/signup', authController.getSignup);

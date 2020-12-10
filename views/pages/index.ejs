@@ -16,9 +16,9 @@
 
     <div class="container">
         <% if(owner){ %>
-          <form action="/add-stuff" method=get>
+          <form action="/add-art" method=get>
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-              <button type="submit">Add Stuff</button>
+              <button type="submit">Add Art</button>
            </form>
         <%}%>
           <ul class="gallery">
@@ -32,11 +32,11 @@
                     <% } tagString += tagArray[j];} %>
 
               <li class="galleryItem">  
-                <form action="/view-stuff" method=get>
+                <form action="/view-art" method=get>
                   <button type="submit" class="titleLink"><%= itemList[i].title %></button><br>
                   <input type="image" class="submitImage" src= "/<%= itemList[i].image %>">
                   <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                  <input type="hidden" name="stuffId" value="<%= itemList[i]._id %>">
+                  <input type="hidden" name="artId" value="<%= itemList[i]._id %>">
                 </form>         
                 <p><%= itemList[i].dateAdded.toDateString() %></p>
                 <% if(!owner) { %>
@@ -45,15 +45,15 @@
                 <p>Tags: <%= tagString %></p>
                 <div>
                   <% if(owner){ %>
-                  <form action="/edit-stuff" method=get>
+                  <form action="/edit-art" method=get>
                       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                       <button type="submit">Edit</button>
-                      <input type="hidden" name="stuffId" value="<%= itemList[i]._id %>">
+                      <input type="hidden" name="artId" value="<%= itemList[i]._id %>">
                   </form>
-                  <form action="/delete-stuff" method=get>
+                  <form action="/delete-art" method=get>
                       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <button type="submit">Delete</button>
-                    <input type="hidden" name="stuffId" value="<%= itemList[i]._id %>">
+                    <input type="hidden" name="artId" value="<%= itemList[i]._id %>">
                   </form>
                   <%}%>
                 </div>
