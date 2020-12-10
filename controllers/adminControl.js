@@ -1,60 +1,60 @@
-const art = require('../models/art.js');
-const Art = require('../models/art.js');
+const stuff = require('../models/stuff.js');
+const Stuff = require('../models/stuff.js');
 const fileHelper = require('../util/fileManager');
 
 const ITEMS_PER_PAGE = 10;
 
-exports.getArt = (req, res, next) => {
+exports.getStuff = (req, res, next) => {
     const user = req.user;
     const page = +req.query.page || 1; 
-    let totalArt;
+    let totalStuff;
 
-    Art.find({ userId: user })
+    Stuff.find({ userId: user })
     .countDocuments()
-    .then(artNum => {
-        totalArt = artNum;
-        return Art.find({ userId: user })
+    .then(stuffNum => {
+        totalStuff = stuffNum;
+        return Stuff.find({ userId: user })
         .skip((page - 1) * ITEMS_PER_PAGE)
         .limit(ITEMS_PER_PAGE)
         .sort({dateAdded: -1});
     })
-    .then(art => {
+    .then(stuff => {
         let usernames = [];
-        for(i = 0; i < art.length; i++){
-            usernames.push(art[i].username);
+        for(i = 0; i < stuff.length; i++){
+            usernames.push(stuff[i].username);
         }
 
         res.render('../views/pages/index.ejs',{
-        title: 'My Art',
-        path: '/my-art',
+        title: 'My stuff',
+        path: '/my-stuff',
         user: user,
-        itemList: art, 
+        itemList: stuff, 
         usernames: usernames,
         owner: true,
         currentPage: page,
-        hasNextPage: ITEMS_PER_PAGE * page < totalArt,
+        hasNextPage: ITEMS_PER_PAGE * page < totalStuff,
         hasPreviousPage: page > 1,
         nextPage: page + 1,
         previousPage: page - 1,
-        lastPage: Math.ceil(totalArt / ITEMS_PER_PAGE)
+        lastPage: Math.ceil(totalStuff / ITEMS_PER_PAGE)
         });
     })
     .catch(err => console.log(err));
 }; 
 
-exports.getViewArt = (req, res, next) => {  
-    const artId = req.query.artId;
+exports.getViewStuff = (req, res, next) => {  
+    const stuffId = req.query.stuffId;
 
-    Art.findById(artId)
-    .then(art => {
+    Stuff.findById(stuffId)
+    .then(stuff => {
         let isOwner;
         if(req.user){
-            isOwner = (req.user._id.toHexString() == art.userId.toHexString());
+            isOwner = (req.user._id.toHexString() == stuff.userId.toHexString());
         }
         else{
             isOwner = false;
         }
-        const tagArray = art.tags;
+        const tagArray = stuff.tags;
         let tagString = "";
 
         for(i = 0; i < tagArray.length; i++){ 
@@ -64,10 +64,10 @@ exports.getViewArt = (req, res, next) => {
             tagString += tagArray[i];
         }
  
-        res.render('../views/pages/view-art.ejs',{
-        title: art.title,
-        path: '/view-art',
-        art: art,
+        res.render('../views/pages/view.ejs',{
+        title: stuff.title,
+        path: '/view',
+        stuff: stuff,
         owner: isOwner,
         tags: tagString
         });
@@ -75,14 +75,14 @@ exports.getViewArt = (req, res, next) => {
     .catch(err => console.log(err));
 }; 
 
-exports.getAddArt = (req, res, next) => {
-    res.render('../views/pages/add-art',{
-        title: 'Add Art',
-        path: '/add-art'
+exports.getAddStuff = (req, res, next) => {
+    res.render('../views/pages/add-stuff',{
+        title: 'Add',
+        path: '/add-stuff'
     });
 };
 
-exports.postAddArt = (req, res, next) => { 
+exports.postAddStuff = (req, res, next) => { 
     const title = req.body.title;
     const description = req.body.description;
     const image = req.file;
@@ -92,11 +92,11 @@ exports.postAddArt = (req, res, next) => {
     const tags = tagString.split(", ");
 
     if(!image){
-        res.redirect('/add-art');
+        res.redirect('/add-stuff');
     }
     const imageUrl = image.path; 
 
-    const art = new Art({
+    const stuff = new Stuff({
         title: title, 
         tags: tags, 
         image: imageUrl,
@@ -104,20 +104,20 @@ exports.postAddArt = (req, res, next) => {
         userId: userId,
         dateAdded: new Date()
     });
-    art.save()
+    stuff.save()
     .then(result => {
-        res.redirect('/my-art');
+        res.redirect('/my-stuff');
     })
     .catch(err => {
         console.log(err);
     })
 };
 
-exports.getEditArt = (req, res, next) => {
-    const artId = req.query.artId;
+exports.getEditStuff = (req, res, next) => {
+    const stuffId = req.query.stuffId;
 
-    Art.findById(artId).then(art => {
-        const tagArray = art.tags;
+    Stuff.findById(stuffId).then(stuff => {
+        const tagArray = stuff.tags;
         let tagString = "";
 
         for(i = 0; i < tagArray.length; i++){ 
@@ -127,52 +127,52 @@ exports.getEditArt = (req, res, next) => {
             tagString += tagArray[i];
         }
  
-        res.render('../views/pages/edit-art', {
-        title: 'Edit Art',
-        path: '/edit-art',
-        art: art,
+        res.render('../views/pages/edit', {
+        title: 'Edit',
+        path: '/edit',
+        stuff: stuff,
         tags: tagString
         }) 
     })
 };
 
-exports.postEditArt = (req, res, next) => { 
-    const artId = req.body.artId;
+exports.postEditStuff = (req, res, next) => { 
+    const stuffId = req.body.stuffId;
     const newTitle = req.body.title;
     const newDescription = req.body.description;
     const tagString = req.body.tags;
     const newImage = req.file;
 
-    Art.findById(artId)
-    .then(art => {
-        art.title = newTitle;
-        art.description = newDescription;
-        art.lastEdited = new Date();
-        art.tags = tagString.split(", ");
+    Stuff.findById(stuffId)
+    .then(stuff => {
+        stuff.title = newTitle;
+        stuff.description = newDescription;
+        stuff.lastEdited = new Date();
+        stuff.tags = tagString.split(", ");
 
         if(newImage){
-            fileHelper.deleteFile(art.image);
-            art.image = newImage.path;
+            fileHelper.deleteFile(stuff.image);
+            stuff.image = newImage.path;
         }
 
-        return art.save()
+        return stuff.save()
     })
     .then(result => {
-        res.redirect('/my-art');
+        res.redirect('/my-stuff');
     })
     .catch(err => console.log(err));
 };
 
-exports.getDeleteArt = (req, res, next) => {
-    const artId = req.query.artId;
+exports.getDeleteStuff = (req, res, next) => {
+    const stuffId = req.query.stuffId;
 
-    Art.findById(artId)
-    .then(art => {
-        fileHelper.deleteFile(art.image);
-        return Art.findByIdAndRemove(artId);
+    Stuff.findById(stuffId)
+    .then(stuff => {
+        fileHelper.deleteFile(stuff.image);
+        return Stuff.findByIdAndRemove(stuffId);
     })
     .then(() => {
-        res.redirect('/my-art');
+        res.redirect('/my-stuff');
     })
     .catch(err => console.log(err));
 };

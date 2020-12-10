@@ -29,7 +29,7 @@ const fileFilter = (req, file, cb) => {
 
 const PORT = process.env.PORT || 5000
 
-const MONGODB_URL = process.env.MONGODB_URL || "mongodb+srv://samhay:artport341@art-portfolio.3l0ic.mongodb.net/portfolio?retryWrites=true&w=majority"
+const MONGODB_URL = process.env.MONGODB_URL || "mongodb+srv://steve:WayofKings1@cluster0.xvozt.mongodb.net/Clustor0?retryWrites=true&w=majority"
 
 const site = new MongoDBSite({
     uri: MONGODB_URL,

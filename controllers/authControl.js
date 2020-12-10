@@ -48,7 +48,7 @@ exports.postSignup = (req, res, next) => {
                         email: email,
                         username: username,
                         password: hashedPassword,
-                        cart: { items: [] }
+                        cstuff: { items: [] }
                     });
                     return user.save();
                 })
@@ -119,6 +119,6 @@ exports.postLogin = (req, res, next) => {
 exports.postLogout = (req, res, next) => {
     req.session.destroy(err => {
       console.log(err);
-      res.redirect('/');
+      res.redirect('/my-stuff');
     });
 };

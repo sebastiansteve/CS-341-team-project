@@ -1,4 +1,4 @@
-const Art = require('../models/art');
+const Stuff = require('../models/stuff');
 const User = require('../models/user');
 
 const ITEMS_PER_PAGE = 10;
@@ -6,24 +6,24 @@ const ITEMS_PER_PAGE = 10;
 exports.getIndex = (req, res, next) => {
     const user = req.user;
     const page = +req.query.page || 1; 
-    let totalArt;
+    let totalStuff;
     let usernames = [];
 
-    Art.find()
+    Stuff.find()
     .countDocuments()
-    .then(artNum => {
-        totalArt = artNum;
-        return Art.find()
+    .then(stuffNum => {
+        totalStuff = stuffNum;
+        return Stuff.find()
         .skip((page - 1) * ITEMS_PER_PAGE)
         .limit(ITEMS_PER_PAGE)
         .sort({dateAdded: -1})
         .populate('userId');
     })
-    .then(art => {
-        for(i = 0; i < art.length; i++){
-            if(art[i].userId != null){
-                if(art[i].userId.username){
-                    usernames.push(art[i].userId.username);
+    .then(stuff => {
+        for(i = 0; i < stuff.length; i++){
+            if(stuff[i].userId != null){
+                if(stuff[i].userId.username){
+                    usernames.push(stuff[i].userId.username);
                 } 
                 else {
                     usernames.push("Anonymous");
@@ -35,27 +35,27 @@ exports.getIndex = (req, res, next) => {
         }
 
         res.render('../views/pages/index.ejs',{ 
-        title: 'Public Gallery',
+        title: 'Welcome',
         path: '/index',
         user: user,
-        itemList: art, 
+        itemList: stuff, 
         usernames: usernames,
         owner: false,
         currentPage: page,
-        hasNextPage: ITEMS_PER_PAGE * page < totalArt,
+        hasNextPage: ITEMS_PER_PAGE * page < totalStuff,
         hasPreviousPage: page > 1,
         nextPage: page + 1,
         previousPage: page - 1,
-        lastPage: Math.ceil(totalArt / ITEMS_PER_PAGE)
+        lastPage: Math.ceil(totalStuff / ITEMS_PER_PAGE)
         });
     })
     .catch(err => console.log(err));
 };
 
-exports.getArtDetails = (req, res, next) => {
-    res.render('../views/pages/art-details', {
-        title: 'Art Details',
-        path: '/art-details', 
-        art: null
+exports.getStuffDetails = (req, res, next) => {
+    res.render('../views/pages/stuff-details', {
+        title: 'Stuff Details',
+        path: '/stuff-details', 
+        stuff: null
     });
 };
