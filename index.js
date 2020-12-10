@@ -9,6 +9,8 @@ const csrf = require('csurf');
 const flash = require('connect-flash');
 const User = require('./models/user');
 const multer = require('multer');
+const gridFS = require('multer-gridfs-storage')
+const methodOverride = require('method-override')
 
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -93,6 +95,9 @@ app.use((req, res, next) => {
 
 //connect to routes
 const routes = require('./routes/routes');
+const { config } = require('process');
+const { promiseImpl } = require('ejs');
+const { resolve } = require('path');
 
 app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image'))
     .use('/images', express.static(path.join(__dirname, 'images')))
@@ -111,3 +116,23 @@ mongoose
     .catch(err => {
         console.log(err);
 });
+
+const storage = new gridFS({
+    url: 'mongodb+srv://samhay:artport341@art-portfolio.3l0ic.mongodb.net/portfolio?retryWrites=true&w=majority',
+    file: (req, file)=> {
+        return new promise((resolve, reject)=> {
+            crypto.randomBytes(16, (err, buf) => {
+                if(err){
+                    return reject(err);
+                }
+                const filename = buf.toString('hex') + path.extname(file.originalname);
+                const fileInfo = {
+                    filename: filename,
+                    bucketName: 'uploads'
+                };
+                resolve(fileInfo);
+            });
+        });
+    }
+});
+const upload = multer({ storage });
