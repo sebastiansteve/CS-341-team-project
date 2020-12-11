@@ -1,8 +1,25 @@
-const art = require('../models/art.js');
+const MulterGridfsStorage = require('multer-gridfs-storage');
 const Art = require('../models/art.js');
 const fileHelper = require('../util/fileManager');
+const express = require('express');
+const fs = require('fs');
+const path = require('path');
 
 const ITEMS_PER_PAGE = 10;
+
+// module.exports = (upload) => {
+//     const url = config.mongoURI;
+//     const connect = mongoose.createConnection(url, { useNewUrlParser: true, useUnifiedTopology: true });
+
+//     let gfs;
+
+//     connect.once('open', () => {
+//         // initialize stream
+//         gfs = new mongoose.mongo.GridFSBucket(connect.db, {
+//             bucketName: "uploads"
+//         });
+//     });
+// }
 
 exports.getArt = (req, res, next) => {
     const user = req.user;
@@ -23,22 +40,45 @@ exports.getArt = (req, res, next) => {
         for(i = 0; i < art.length; i++){
             usernames.push(art[i].username);
         }
-
-        res.render('../views/pages/index.ejs',{
-        title: 'My Art',
-        path: '/my-art',
-        user: user,
-        itemList: art, 
-        usernames: usernames,
-        owner: true,
-        currentPage: page,
-        hasNextPage: ITEMS_PER_PAGE * page < totalArt,
-        hasPreviousPage: page > 1,
-        nextPage: page + 1,
-        previousPage: page - 1,
-        lastPage: Math.ceil(totalArt / ITEMS_PER_PAGE)
+        Art.find({})
+        .then(pictures => {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                res.render('../views/pages/index.ejs', { 
+                    title: 'My Art',
+                    path: '/my-art',
+                    user: user,
+                    itemList: art, 
+                    usernames: usernames,
+                    pictures: pictures,
+                    owner: true,
+                    currentPage: page,
+                    hasNextPage: ITEMS_PER_PAGE * page < totalArt,
+                    hasPreviousPage: page > 1,
+                    nextPage: page + 1,
+                    previousPage: page - 1,
+                    lastPage: Math.ceil(totalArt / ITEMS_PER_PAGE)
+                 });
+            }
         });
-    })
+                    // res.render('../views/pages/index.ejs',{
+                    //     title: 'My Art',
+                    //     path: '/my-art',
+                    //     user: user,
+                    //     itemList: art, 
+                    //     imageFiles: files,
+                    //     usernames: usernames,
+                    //     owner: true,
+                    //     currentPage: page,
+                    //     hasNextPage: ITEMS_PER_PAGE * page < totalArt,
+                    //     hasPreviousPage: page > 1,
+                    //     nextPage: page + 1,
+                    //     previousPage: page - 1,
+                    //     lastPage: Math.ceil(totalArt / ITEMS_PER_PAGE)
+                    //     });
+        })
     .catch(err => console.log(err));
 }; 
 
@@ -85,21 +125,18 @@ exports.getAddArt = (req, res, next) => {
 exports.postAddArt = (req, res, next) => { 
     const title = req.body.title;
     const description = req.body.description;
-    const image = req.file;
     const userId = req.user;
     const tagString = req.body.tags;
 
     const tags = tagString.split(", ");
-
-    if(!image){
-        res.redirect('/add-art');
-    }
-    const imageUrl = image.path; 
-
+    
     const art = new Art({
         title: title, 
         tags: tags, 
-        image: imageUrl,
+        image: {
+            data: fs.readFileSync(path.join(__dirname + '/adminControl.js')),
+            contentType: 'image/png'
+        },
         description: description,
         userId: userId,
         dateAdded: new Date()

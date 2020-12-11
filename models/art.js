@@ -16,11 +16,11 @@ const artSchema = new Schema({
     required: true
   }, 
   image: {
-    type: String,
-    required: true 
+    data: Buffer,
+    contentType: String
   },
   userId: {
-    type: Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId, 
     ref: 'User',
     required: true
   },

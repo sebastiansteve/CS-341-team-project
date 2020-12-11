@@ -34,7 +34,10 @@
               <li class="galleryItem">  
                 <form action="/view-art" method=get>
                   <button type="submit" class="titleLink"><%= itemList[i].title %></button><br>
-                  <input type="image" class="submitImage" src= "/<%= itemList[i].image %>">
+                  <!-- <input type="image" class="submitImage" -->
+                  <img src="data:image/png;base64, 
+                  <%=pictures[i].image.data.toString('base64')%>">
+             
                   <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                   <input type="hidden" name="artId" value="<%= itemList[i]._id %>">
                 </form>         
